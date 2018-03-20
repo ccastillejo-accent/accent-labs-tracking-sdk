@@ -44,7 +44,7 @@ class AuthenticationController extends Controller
 
             $project = new Project($apiRequest);
 
-            $projects = $project->list(3);
+            $projects = $project->list('au');
         } catch (RequestExceptions $e) {
             dump('entro al home');
             dump($e->getResponse());

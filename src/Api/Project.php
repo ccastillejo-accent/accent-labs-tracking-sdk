@@ -38,7 +38,7 @@ class Project
      * @param string $name
      *
      * @return mixed|string
-     * @throws \AccentLabs\Trackingsdk\Exceptions\RequestExceptions
+     * @throws RequestExceptions
      */
     public function list($clientId, $name = null)
     {
@@ -46,15 +46,8 @@ class Project
         if ($name != '') {
             $params['name'] = $name;
         }
-        $response = $this->apiRequest->makeRequest('post', 'project', 'List', $params);
+        return $this->controlRequest('post', 'List', $params);
 
-        dump($response);
-        die;
-        if (count($response) > 0 && $response->status == 'ok') {
-            return $response;
-        } else {
-            throw new RequestExceptions(803, "Request error");
-        }
     }
 
     /**
@@ -69,7 +62,7 @@ class Project
     public function create($clientId, $name)
     {
         $params = ['client_id' => $clientId, 'name' => $name];
-        return $this->apiRequest->makeRequest('post', 'project', 'Create', $params);
+        return $this->controlRequest('post', 'Create', $params);
     }
 
     /**
@@ -85,7 +78,8 @@ class Project
     public function update($id, $name)
     {
         $params = ['id' => $id, 'name' => $name];
-        return $this->apiRequest->makeRequest('post', 'project', 'Update', $params);
+        return $this->controlRequest('post', 'Update', $params);
+
     }
 
 
@@ -100,6 +94,25 @@ class Project
     public function delete($id)
     {
         $params = ['id' => $id];
-        return $this->apiRequest->makeRequest('post', 'project', 'Delete', $params);
+        return $this->controlRequest('post', 'Delete', $params);
+    }
+
+    /**
+     * @param $typeRequest
+     * @param $type
+     * @param $params
+     * @return mixed|string
+     * @throws RequestExceptions
+     */
+    private function controlRequest($typeRequest, $type, $params)
+    {
+        $response = $this->apiRequest->makeRequest($typeRequest, 'project', $type, $params);
+
+        if (count($response) > 0 && $response->status == 'ok') {
+            return $response;
+        } else {
+            dump($response);
+            throw new RequestExceptions($response->error->code, $response->error->msg);
+        }
     }
 }
