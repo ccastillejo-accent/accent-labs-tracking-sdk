@@ -1,0 +1,15 @@
+{
+    "name": "root/tracking-sdk",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kilian Jaén",
+            "email": "kjaen@accent-systems.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    }
+}
