@@ -10,12 +10,11 @@ namespace AccentLabs\TrackingSdk\Api;
 
 use AccentLabs\TrackingSdk\Exceptions\RequestExceptions;
 
-
 /**
- * Class Project
+ * Class Beacon
  * @package AccentLabs\TrackingSdk\Api
  */
-class Project
+class Beacon
 {
     /**
      * @var ApiRequest
@@ -23,7 +22,7 @@ class Project
     private $apiRequest;
 
     /**
-     * Project constructor.
+     * Beacon constructor.
      * @param ApiRequest $apiRequest
      */
     function __construct(ApiRequest $apiRequest)
@@ -32,81 +31,78 @@ class Project
     }
 
     /**
-     * This function allows you to get list of projects
+     * This command allows you to get list of beacons
      *
-     * @param int $clientId
-     * @param string $name
+     * @param string name
+     * @param int client_id
      *
      * @return mixed|string
+     *
      * @throws RequestExceptions
      */
-    public function list($clientId, $name = null)
+    public function list($name = null, $clientId = null)
     {
-        $params = ['client_id' => $clientId];
+        $params = [];
+
         if (!empty($name)) {
             $params['name'] = $name;
+        }
+        if (!empty($clientId)) {
+            $params['client_id'] = $clientId;
         }
         return $this->controlRequest('post', 'List', $params);
 
     }
 
     /**
-     * This command allows you create a project
+     * This command allows you create a beacon
      *
-     * @param  int $clientId
-     * @param string $name
+     * @param string name required
+     * @param string mac required
+     * @param string uuid required
+     * @param string major required
+     * @param string minor required
+     * @param float lat required
+     * @param float lng required
      *
      * @return mixed|string
-     * @throws \AccentLabs\Trackingsdk\Exceptions\RequestExceptions
+     *
+     * @throws RequestExceptions
      */
-    public function create($clientId, $name)
+    public function create($name, $mac, $uuid, $major, $minor, $lat, $lng)
     {
-        $params = ['client_id' => $clientId, 'name' => $name];
+        $params = ['name' => $name, 'mac' => $mac, 'uuid' => $uuid, 'major' => $major, 'minor' => $minor, 'lat' => $lat, 'lng' => $lng];
         return $this->controlRequest('post', 'Create', $params);
     }
 
     /**
-     * This command allows you update a project
+     * This command allows you update a beacon
      *
-     * @param int $id
-     * @param string $name
+     * @param int id required
+     * @param string name required
      *
      * @return mixed|string
      *
-     * @throws \AccentLabs\Trackingsdk\Exceptions\RequestExceptions
+     * @throws RequestExceptions
      */
     public function update($id, $name)
     {
         $params = ['id' => $id, 'name' => $name];
         return $this->controlRequest('post', 'Update', $params);
-
-    }
-
-
-    /**
-     * This command allows you delete a project
-     *
-     * @param int $id
-     *
-     * @return mixed|string
-     * @throws \AccentLabs\Trackingsdk\Exceptions\RequestExceptions
-     */
-    public function delete($id)
-    {
-        $params = ['id' => $id];
-        return $this->controlRequest('post', 'Delete', $params);
     }
 
     /**
      * @param $typeRequest
      * @param $type
      * @param $params
+     *
      * @return mixed|string
+     *
      * @throws RequestExceptions
      */
     private function controlRequest($typeRequest, $type, $params)
     {
-        $response = $this->apiRequest->makeRequest($typeRequest, 'project', $type, $params);
+        $response = $this->apiRequest->makeRequest($typeRequest, 'beacon', $type, $params);
 
         if (count($response) > 0 && $response->status == 'ok') {
             return $response;
