@@ -78,17 +78,60 @@ class Beacon
     /**
      * This command allows you update a beacon
      *
-     * @param int id required
-     * @param string name required
+     * @param $id
+     * @param string $name
+     * @param string $mac
+     * @param string $uuid
+     * @param string $major
+     * @param string $minor
+     * @param string $lat
+     * @param string $lng
      *
      * @return mixed|string
      *
      * @throws RequestExceptions
      */
-    public function update($id, $name)
+    public function update($id, $name = null, $mac = null, $uuid = null, $major = null, $minor = null, $lat = null, $lng = null)
     {
-        $params = ['id' => $id, 'name' => $name];
+        $params = ['id' => $id];
+        if (!empty($name)) {
+            $params['name'] = $name;
+        }
+        if (!empty($mac)) {
+            $params['mac'] = $mac;
+        }
+        if (!empty($uuid)) {
+            $params['uuid'] = $uuid;
+        }
+        if (!empty($major)) {
+            $params['major'] = $major;
+        }
+        if (!empty($minor)) {
+            $params['minor'] = $minor;
+        }
+        if (!empty($lat) && is_numeric($lat)) {
+            $params['lat'] = $lat;
+        }
+        if (!empty($lng) && is_numeric($lng)) {
+            $params['lng'] = $lng;
+        }
+
         return $this->controlRequest('post', 'Update', $params);
+    }
+
+    /**
+     * This command allows you delete a beacon
+     *
+     * @param int $id
+     *
+     * @return mixed|string
+     *
+     * @throws \AccentLabs\Trackingsdk\Exceptions\RequestExceptions
+     */
+    public function delete($id)
+    {
+        $params = ['id' => $id];
+        return $this->controlRequest('post', 'Delete', $params);
     }
 
     /**

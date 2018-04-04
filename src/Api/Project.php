@@ -38,6 +38,7 @@ class Project
      * @param string $name
      *
      * @return mixed|string
+     *
      * @throws RequestExceptions
      */
     public function list($clientId, $name = null)
@@ -57,6 +58,7 @@ class Project
      * @param string $name
      *
      * @return mixed|string
+     *
      * @throws \AccentLabs\Trackingsdk\Exceptions\RequestExceptions
      */
     public function create($clientId, $name)
@@ -89,6 +91,7 @@ class Project
      * @param int $id
      *
      * @return mixed|string
+     *
      * @throws \AccentLabs\Trackingsdk\Exceptions\RequestExceptions
      */
     public function delete($id)
@@ -101,7 +104,9 @@ class Project
      * @param $typeRequest
      * @param $type
      * @param $params
+     *
      * @return mixed|string
+     *
      * @throws RequestExceptions
      */
     private function controlRequest($typeRequest, $type, $params)
