@@ -90,7 +90,7 @@ class Oauth
      *
      * @throws \AccentLabs\Trackingsdk\Exceptions\RequestExceptions
      */
-    private function getTocken()
+    private function getToken()
     {
         try {
             $http = new GuzzleHttp\Client;
@@ -149,7 +149,7 @@ class Oauth
             $this->token = $responseOauth["access_token"];
             $this->tokenType = $responseOauth["token_type"];
         } else {
-            $this->getTocken();
+            $this->getToken();
         }
     }
 
@@ -172,7 +172,7 @@ class Oauth
                 $this->tokenType = $userInfo["token_type"];
             }
         } else {
-            $this->getTocken();
+            $this->getToken();
         }
     }
 
